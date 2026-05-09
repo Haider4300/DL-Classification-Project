@@ -1,0 +1,43 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+venv/
+
+# Environment variables (contains secrets)
+.env
+.env.local
+
+# Large model files — store on Google Drive / HuggingFace
+*.keras
+*.h5
+*.pb
+saved_model/
+
+# Training data — too large for git
+data/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# uv / pyproject (root level — not needed in repo)
+uv.lock
+.uv/
+pyproject.toml
+.python-version
+
+# Node (root level)
+node_modules/
+package.json
+package-lock.json

@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background: linear-gradient(160deg, #f8fafc 0%, #eef2ff 100%);
+    min-height: 100vh;
+    font-family: 'DM Sans', system-ui, sans-serif;
+  }
+}
+
+.prob-bar {
+  transition: width 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
