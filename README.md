@@ -1,3 +1,4 @@
+# Author: Ali Haider (AI-Engineer)
 <div align="center">
 
 # 🧠 DL Image Classifier
