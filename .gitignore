@@ -15,7 +15,6 @@ venv/
 .env.local
 
 # Large model files — store on Google Drive / HuggingFace
-*.keras
 *.h5
 *.pb
 saved_model/
