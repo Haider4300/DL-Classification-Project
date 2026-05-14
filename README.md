@@ -1,5 +1,5 @@
+# Author: Haider (AI-Engineer)
 
-# Author: Ali Haider (AI-Engineer)
 <div align="center">
 
 # 🧠 DL Image Classifier
@@ -12,6 +12,9 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://typescriptlang.org)
 [![TailwindCSS](https://img.shields.io/badge/Tailwind-3-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
 [![TensorFlow](https://img.shields.io/badge/TensorFlow-2.17-FF6F00?logo=tensorflow&logoColor=white)](https://tensorflow.org)
+[![HuggingFace](https://img.shields.io/badge/🤗%20HuggingFace-Spaces-yellow)](https://huggingface.co/spaces/Haider4300/dl-image-classifier)
+
+🚀 **[Live Demo → huggingface.co/spaces/Haider4300/dl-image-classifier](https://huggingface.co/spaces/Haider4300/dl-image-classifier)**
 
 </div>
 
@@ -53,6 +56,7 @@
 | **Backend** | FastAPI · Uvicorn · Pydantic · Pillow · NumPy |
 | **Frontend** | React 18 · TypeScript · Vite · Tailwind CSS 3 |
 | **Training** | TensorFlow 2.17 · Keras 3 · Jupyter Notebooks |
+| **Deployment** | Docker · Hugging Face Spaces |
 
 ---
 
@@ -62,85 +66,49 @@
 DL project/
 ├── backend/
 │   ├── app/
-│   │   ├── api/
-│   │   │   └── routes/
-│   │   │       ├── health.py       # GET /api/v1/health
-│   │   │       └── predict.py      # POST /api/v1/predict
-│   │   ├── core/
-│   │   │   └── config.py           # App settings (model path, image size, classes)
+│   │   ├── api/routes/
+│   │   │   ├── health.py           # GET /api/v1/health
+│   │   │   └── predict.py          # POST /api/v1/predict
+│   │   ├── core/config.py          # App settings
 │   │   ├── inference/
-│   │   │   └── keras_predictor.py  # Model loading + inference logic
-│   │   ├── schemas/
-│   │   │   └── prediction.py       # Pydantic request/response models
+│   │   │   └── keras_predictor.py  # Model loading + inference
+│   │   ├── schemas/prediction.py   # Pydantic models
 │   │   ├── services/
-│   │   │   └── predictor_service.py # Singleton model instance
-│   │   └── main.py                 # FastAPI app + CORS + lifespan
-│   ├── .env                        # Model path, image size, CORS origins
+│   │   │   └── predictor_service.py
+│   │   └── main.py                 # FastAPI app entry point
+│   ├── .env
 │   └── requirements.txt
-│
 ├── frontend/
 │   ├── src/
-│   │   ├── components/
-│   │   │   ├── Card.tsx            # Reusable card shell
-│   │   │   ├── HealthBadge.tsx     # API status indicator
-│   │   │   ├── PredictionForm.tsx  # Upload + submit
-│   │   │   ├── PredictionResult.tsx # Class + probability bars
-│   │   │   ├── PredictionHistory.tsx # Session audit table
-│   │   │   └── StatsPanel.tsx      # Metrics + distribution
-│   │   ├── hooks/
-│   │   │   └── useHealth.ts        # Health polling hook
-│   │   ├── lib/
-│   │   │   ├── api.ts              # fetch wrappers
-│   │   │   └── types.ts            # TypeScript interfaces
-│   │   ├── App.tsx                 # Root layout
-│   │   └── main.tsx                # Entry point
-│   ├── index.html
+│   │   ├── components/             # UI components
+│   │   ├── hooks/useHealth.ts
+│   │   ├── lib/api.ts
+│   │   └── App.tsx
 │   ├── package.json
-│   ├── tailwind.config.js
 │   └── vite.config.ts
-│
 ├── Notebooks/
 │   ├── dl_project.ipynb            # Custom CNN training
 │   └── transfer_learning.ipynb     # EfficientNetB3 fine-tuning
-│
-├── docs/
-│   └── dashboard.png               # App screenshot
-│
-├── .gitignore
+├── Dockerfile                      # Multi-stage build for HF Spaces
 └── README.md
 ```
-
-> ⚠️ **Model files** (`*.keras`) are not included in this repo due to size.
-> Download from: **[Google Drive link here]** and place in the project root.
 
 ---
 
 ## 🚀 Run Locally
 
-### Prerequisites
-- Python 3.11
-- Node.js 18+
-- The `.keras` model file in project root
-
 ### Terminal 1 — Backend
 
 ```bash
 cd backend
-
-# Create and activate virtual environment
 python -m venv .venv
 source .venv/Scripts/activate    # Windows
-# source .venv/bin/activate      # Mac / Linux
-
-# Install dependencies
 pip install -r requirements.txt
-
-# Start the server
 python -m uvicorn app.main:app --reload --port 8000
 ```
 
-Backend runs at → `http://localhost:8000`
-API docs at → `http://localhost:8000/docs`
+Backend → `http://localhost:8000`  
+API docs → `http://localhost:8000/docs`
 
 ### Terminal 2 — Frontend
 
@@ -150,14 +118,13 @@ npm install
 npm run dev
 ```
 
-Frontend runs at → `http://localhost:3000`
+Frontend → `http://localhost:3000`
 
 ---
 
 ## 🔌 API Endpoints
 
 ### `GET /api/v1/health`
-Returns model status and supported classes.
 
 ```json
 {
@@ -169,21 +136,14 @@ Returns model status and supported classes.
 ```
 
 ### `POST /api/v1/predict`
-Accepts a multipart image upload, returns prediction.
-
-```bash
-curl -X POST http://localhost:8000/api/v1/predict \
-  -F "file=@cat.jpg"
-```
 
 ```json
 {
   "label": "cat",
   "confidence": 0.9998,
   "probabilities": [
-    { "label": "cat",   "probability": 0.9998 },
-    { "label": "dog",   "probability": 0.0001 },
-    { "label": "flower","probability": 0.0001 }
+    { "label": "cat", "probability": 0.9998 },
+    { "label": "dog", "probability": 0.0001 }
   ],
   "model_name": "natural_images_transfer_learning.keras",
   "inference_ms": 166.4
@@ -194,66 +154,33 @@ curl -X POST http://localhost:8000/api/v1/predict \
 
 ## 🧠 Model Details
 
-### Transfer Learning Model — EfficientNetB3 ⭐ (Active)
+### Transfer Learning — EfficientNetB3 ⭐ (Active)
 
 | Metric | Value |
 |--------|-------|
 | Base model | EfficientNetB3 (ImageNet weights) |
 | Input size | 224 × 224 × 3 |
-| Training accuracy | ~100% |
 | Validation accuracy | **99.85%** |
 | Epochs | 15 |
 | Dataset size | 6,899 images |
 
-Architecture:
 ```
-EfficientNetB3 (frozen, ImageNet)
-→ GlobalAveragePooling2D
-→ Dense(256, relu)
-→ Dropout(0.3)
-→ Dense(8, softmax)
-```
-
-### Custom CNN Model (Baseline)
-
-| Metric | Value |
-|--------|-------|
-| Input size | 150 × 150 × 3 |
-| Architecture | Custom Conv2D + MaxPool stack |
-
----
-
-## ⚙️ Configuration
-
-Edit `backend/.env` to switch models or adjust settings:
-
-```env
-# Use transfer learning model (recommended)
-APP_MODEL_PATH=../natural_images_transfer_learning.keras
-APP_IMAGE_SIZE=[224,224]
-
-# Or use the custom CNN
-# APP_MODEL_PATH=../natural_images_cnn.keras
-# APP_IMAGE_SIZE=[150,150]
-
-APP_CLASS_NAMES=["airplane","car","cat","dog","flower","fruit","motorbike","person"]
-APP_CORS_ORIGINS=["http://localhost:3000"]
+EfficientNetB3 (frozen) → GlobalAveragePooling2D → Dense(256) → Dropout(0.3) → Dense(8, softmax)
 ```
 
 ---
 
 ## 📦 Deployment
 
-| Service | Purpose |
-|---------|---------|
-| **Vercel** | Frontend hosting |
-| **Render** | Backend (FastAPI) | 
-| **Google Drive** | Model file storage | 
+| Service | Purpose | Link |
+|---------|---------|------|
+| **Hugging Face Spaces** | Full app (Backend + Frontend) | [Live Demo](https://huggingface.co/spaces/Haider4300/dl-image-classifier) |
+| **Git LFS** | Model file storage | Included in repo |
 
-See [DEPLOYMENT.md] for full step-by-step instructions.
+Multi-stage Dockerfile: Node.js builds React → Python serves API + static files on port `7860`.
 
 ---
 
 ## 📄 License
 
-Internal project. All rights reserved by the authors.
+Internal project. All rights reserved by the author.
