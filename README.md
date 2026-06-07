@@ -1,4 +1,4 @@
-# Author: Ali Haider (AI-Engineer)
+# Author: Ali Haider
 
 <div align="center">
 
