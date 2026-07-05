@@ -24,7 +24,7 @@
 
 <img width="1919" height="945" alt="dashboard" src="https://github.com/user-attachments/assets/31a934f1-9db9-4d85-88d0-dabe3a44c2bb" />
 
----
+----
 
 ## ✨ Features
 
