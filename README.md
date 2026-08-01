@@ -46,7 +46,7 @@
 | 🐱 | Cat | 🏍️ | Motorbike |
 | 🐶 | Dog | 🧑 | Person |
 
----
+----
 
 ## 🧱 Tech Stack
 
